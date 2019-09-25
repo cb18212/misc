@@ -1,0 +1,52 @@
+<!DOCTYPE utf-8>
+<html lang="en">
+	<head>
+	</head>
+	<body>
+		<p>Fermat spiral</p>
+		<canvas id="draw" width="1000" height="1000"></canvas>
+	</body>
+	<script>
+		var canvas = document.getElementById('draw');
+		var ctx = canvas.getContext('2d');
+		class polarPoint
+		{
+			constructor(x, angle)
+			{
+				this.x = x;
+				this.angle = angle;
+			}
+		}
+		class cartPoint
+		{
+			constructor(tpolarPoint)
+			{
+				this.x = tpolarPoint.x*Math.cos(tpolarPoint.angle);
+				this.y = tpolarPoint.x*Math.sin(tpolarPoint.angle);
+			}
+		}
+		var a = 1;
+		var incr = 0.001;
+		var scale = 10;
+		var xOffSet = 500;
+		var yOffSet = 500;
+		var points = [];
+		var cartPoints = [];
+		for(var i = 0; i < 30; i += incr)
+		{
+			points.push(new polarPoint(a*(i^0.5),i))
+		}
+		for(i = 0; i < points.length; i++)
+		{
+			cartPoints[i] =  new cartPoint(points[i]);
+		}
+		for(i = 1; i < cartPoints.length; i++)
+		{
+			ctx.fillRect((cartPoints[i].x*scale)+xOffSet, (cartPoints[i].y*scale)+yOffSet, 1, 1);
+			ctx.beginPath();
+			ctx.moveTo((cartPoints[i-1].x*scale)+xOffSet, (cartPoints[i-1].y*scale)+yOffSet);
+			ctx.lineTo((cartPoints[i].x*scale)+xOffSet, (cartPoints[i].y*scale)+yOffSet);
+			ctx.stroke();
+		}
+	</script>
+</html>
